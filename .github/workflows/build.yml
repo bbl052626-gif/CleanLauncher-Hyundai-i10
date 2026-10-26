@@ -13,25 +13,21 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: '17'
 
       - name: Setup Android SDK
-        uses: subosito/android-action@v2
-        with:
-          target-sdk: 34
-          build-tools: 34.0.0
-          components: platform-tools,platforms;android-34
+        uses: android-actions/setup-android@v3
 
-      - name: Install Gradle System
+      - name: Install System Gradle
         run: sudo apt-get update && sudo apt-get install -y gradle
 
       - name: Build APK with Gradle
         run: |
-          gradle wrapper --gradle-version 8.5
-          chmod +x gradlew
+          gradle wrapper --gradle-version 8.5 || true
+          chmod +x gradlew || true
           ./gradlew assembleDebug
 
       - name: Upload APK Artifact

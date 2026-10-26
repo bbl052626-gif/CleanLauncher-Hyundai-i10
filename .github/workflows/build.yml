@@ -24,6 +24,9 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Accept Android SDK Licenses
+        run: yes | sdkmanager --licenses || true
+
       - name: Create Gradle Wrapper and Build
         run: |
           gradle wrapper --gradle-version 8.5

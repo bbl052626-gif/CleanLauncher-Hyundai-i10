@@ -13,19 +13,19 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
       - name: Install System Gradle
         run: sudo apt-get update && sudo apt-get install -y gradle
 
-      - name: Build APK with Gradle
+      - name: Build APK with Preinstalled SDK
+        env:
+          ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
         run: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
           gradle wrapper --gradle-version 8.5 || true
           chmod +x gradlew || true
           ./gradlew assembleDebug
